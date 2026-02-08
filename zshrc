@@ -76,9 +76,13 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+
+# disable PROMPT from virtual enviroment
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 if [ "$color_prompt" = yes ]; then
-	PROMPT=$'%F{%(#.blue.green)}┌──${arch_chroot:+($arch_chroot)──}(%B%F{%(#.red.blue)}%n%(#.@.@)%m%b%F{%(#.blue.green)})-[%F{reset}${"$(date --rfc-3339=seconds)":11:8}%F{%(#.blue.green)}]-[%F{reset}${"$(upower -i $(upower -e | grep BAT) | grep -E "percentage" )":25:4}%%F{%(#.blue.green)}]-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%F{blue}$ '
-    RPROMPT=$'%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
+	PROMPT=$'\n%F{%(#.blue.green)}┌──${arch_chroot:+($arch_chroot)──}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))──}(%B%F{%(#.red.blue)}%n%(#.@.@)%m%b%F{%(#.blue.green)})-[%F{reset}${"$(date --rfc-3339=seconds)":11:8}%F{%(#.blue.green)}]-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└─%F{blue}$ '
+    RPROMPT=$'\n%(?.. %? %F{red}%B⨯%b%F{reset})%(1j. %j %F{yellow}%B⚙%b%F{reset}.)'
 
     # enable syntax-highlighting
     if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ] && [ "$color_prompt" = yes ]; then
@@ -191,3 +195,12 @@ alias l='ls -CF'
 source ~/.zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#ff00ff,bold,underline"
 
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+path=('/home/vermouth/.juliaup/bin' $path)
+export PATH
+
+# <<< juliaup initialize <<<
