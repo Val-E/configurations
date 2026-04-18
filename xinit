@@ -1,0 +1,34 @@
+# set wallpaper and background video
+feh --no-fehbg --bg-fill ~/Pictures/wallpaper5.jpg
+xwinwrap -g 520x520+100+520 -a -s -st -sp -nf -ov -fdt -- mpv -wid WID -loop -framedrop=vo -no-osc -panscan="1.0" ~/Videos/bg.mp4 &
+
+# generate colorschema from wallpaper
+python -m pywal --backend imagemagick -i ~/Pictures/wallpaper5.jpg
+xrdb -merge ~/.cache/wal/colors.Xresources
+
+# enable leds
+xset led on
+
+# set backlight to max
+# echo 7500 > /sys/class/backlight/intel_backlight/brightness
+
+# set framerate and resolution
+# xrandr -s 1920x1080 -r 100
+
+# disable caps lock
+xmodmap -e 'keycode 66 = 0x00'
+
+# activate alpha
+picom --backend xrender &
+
+# lock screen after 1min
+xautolock -time 1 -locker "slock" -corners ----  &
+
+# update panel
+while xsetroot -name "`date` | `uptime`"
+do
+        sleep 1s
+done &
+
+# start dwm
+exec dwm
